@@ -1,70 +1,28 @@
-# Getting Started with Create React App
+Bu projede Erasmus programına başvuracak öğrencilerin, başvuru için gerekli olan bilgilerinin alınabilmesi için bir portal yapılması amaçlanmıştır.
+Proje, React.js ve Node.js kullanılarak yapılmıştır.
+Kullanıcı kayıt oluşturarak portal sayfasına giriş yapabilir. Kullanıcının hesap bilgisi veri tabanında hesap adlı bir tabloda tutulmaktadır.  Kayıt oluşturulurken mail ve 6 karakterli şifre girildiğine dair kontrol yapılmaktadır. Ayrıca kullanıcıya şifresini tekrar ettirerek doğru şifre ile hesap oluşturulması sağlanmaktadır. 
+Kayıt formu oluşturulduktan sonra giriş sayfasından yapılacak login işlemi esnasında kullanıcının hesap tablosundaki hesap bilgileri kontrol edilmekte, bilgilerin örtüşmesi halinde portal sayfasına giriş yapılabilmektedir. 
+Portal sayfasına giriş yapıldığında kullanıcının veri tabanında tutulan kullanıcı adı sağ üst köşede çıkmaktadır.
+Portal sayfasından kullanıcı Erasmus programına başvururken kendisinden istenen bilgileri başvuru formunu doldurarak veri tabanına gönderebilir. Veri tabanında öğrencinin hesap, öğrenci, iletişim, engellilik,eğitim ve dokuman bilgilerini tutan 6 tane farklı tablo bulunmaktadır. Bu tablolar hesap tablosundaki Id’ye göre ilişkilendirilmiştir. Böylece veri tabanında normalizasyon sağlanmış bulunmaktadır.
+ Veri tabanına gönderilen bilgiler tek bir form aracılığıyla ve tek bir post işlemi ile gönderilmektedir. Bu aşamada birden fazla tabloya tek bir post işlemi ile veri gönderilirken hata alınmaması için async- await yapısı kullanılmıştır. 
+Kullanıcı başvuru bilgilerini başvuru görüntüle kısmından görüntüleyebilmektedir. Bu aşamada da tek bir post işlemi ile birden fazla tablodan veri çekilmeye çalışıldığı için tablolar join’lenerek tek bir tabloya indirilmiş bulunmaktadır. 
+Kullanıcı girdiği bilgileri başvuru bilgilerini düzenle kısmından güncelleyebilmektedir.  
+Son olarak kullanıcı hesap kullanıcı adını ve şifresini kayıt bilgilerini düzenle kısmından güncelleyebilmektedir. Bu aşama ilk olarak kullanıcıdan eski bilgilerinin girilmesi istenmektedir. Girdiği bilgiler doğruysa yeni bilgilerin istediği sayfa açılmaktadır. 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+------------------------------
+Veri tabanı adı: erasmus
+Hesap tablosundaki HesapID ile diğer tablolardaki HesapId’ler ilişkilendilirmiştir.
+Create TABLE Ogrenci (OgrenciID int, HesapId int,Ad varchar(50), Soyad varchar(50),Milliyet varchar(50),Milliyet2 varchar(50),ID_No char(20), Cinsiyet char(1),DogumTarihi date)
 
-## Available Scripts
+CREATE TABLE Hesap(HesapID int,KullaniciMail varchar(100),Sifre varchar(10),isLogin boolean )
 
-In the project directory, you can run:
+CREATE TABLE Dokuman(DokumanID int,HesapId int, Cv varchar(1000),NiyetMektubu varchar(1000),Pasaport varchar(1000),Ikametgah varchar(1000),Diploma varchar(1000),IngilizceBelge varchar(1000))
 
-### `npm start`
+Create TABLE IletisimBilgisi (IletisimID int, HesapId int, Email varchar(100),Telefon varchar(20),Sehir varchar(20),Ilce varchar(20),Mahalle varchar(50),Sokak varchar(50),Ulke varchar(30),PostaKodu varchar(30))
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+CREATE TABLE Egitim (EgitimID int, HesapId int, MezunOlunanUni varchar(100),Bolum varchar(30),MezuniyetDurumu char(1), MezuniyetTarihi date, Gpa decimal(3,2))
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+CREATE TABLE Engellilik (EngelID int, HesapId int, EngellilikAciklamasi varchar(100))
+--------------
+nmp install
+nmp start
